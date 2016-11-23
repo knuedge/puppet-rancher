@@ -19,13 +19,18 @@ class rancher::management(
     }
   }
 
+  $image_name = $docker_image_tag ? {
+    /[a-zA-Z0-9]+/ => "rancher/server:${docker_image_tag}"
+    default => 'rancher/server'
+  }
+
   $volumes = $mysql_bind_mount ? {
     true    => ["${mysql_bind_mount_path}:/var/lib/mysql"],
     default => []
   }
 
   docker::run { 'rancher/server':
-    image                     => 'rancher/server',
+    image                     => $image_name,
     ports                     => ["${rancher_manager_port}:8080"],
     require                   => Docker::Image['rancher/server'],
     remove_container_on_start => $docker_cleanup_container,
