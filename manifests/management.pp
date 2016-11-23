@@ -20,7 +20,7 @@ class rancher::management(
   }
 
   $image_name = $docker_image_tag ? {
-    /[a-zA-Z0-9]+/ => "rancher/server:${docker_image_tag}"
+    /[a-zA-Z0-9]+/ => "rancher/server:${docker_image_tag}",
     default => 'rancher/server'
   }
 
