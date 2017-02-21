@@ -15,6 +15,7 @@ class rancher::node (
 
   docker::run { 'rancher/node':
     image      => 'rancher/agent',
+    restart    => 'no',
     privileged => true,
     command    => "http://${management}:${rancher_master_port}/v1/scripts/${registration_token}",
     volumes    => [
